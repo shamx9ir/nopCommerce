@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Domain.Discounts;
@@ -25,6 +25,7 @@ namespace Nop.Core.Domain.Catalog
         protected ICollection<TierPrice> _tierPrices;
         protected ICollection<DiscountProductMapping> _discountProductMappings;
         private ICollection<ProductWarehouseInventory> _productWarehouseInventory;
+        private ICollection<ProductComponent> _productComponents;
 
         /// <summary>
         /// Gets or sets the product type identifier
@@ -729,5 +730,20 @@ namespace Nop.Core.Domain.Catalog
             get => _productWarehouseInventory ?? (_productWarehouseInventory = new List<ProductWarehouseInventory>());
             protected set => _productWarehouseInventory = value;
         }
+
+        /// <summary>
+        /// Batch for simple product type
+        /// </summary>
+        public int BatchId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of "ProductComponent" records. The components that make up the product.
+        /// </summary>
+        public virtual ICollection<ProductComponent> ProductComponents 
+        {
+            get => _productComponents ?? (_productComponents = new List<ProductComponent>());
+            protected set => _productComponents = value;
+        }
+
     }
 }

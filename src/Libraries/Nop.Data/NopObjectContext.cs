@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Newtonsoft.Json;
 using Nop.Core;
+using Nop.Core.Data;
 using Nop.Data.Mapping;
 
 namespace Nop.Data
@@ -12,12 +16,32 @@ namespace Nop.Data
     /// <summary>
     /// Represents base object context
     /// </summary>
-    public partial class NopObjectContext : DbContext, IDbContext
+    public partial class NopObjectContext : DbContext, IDbContext, IDesignTimeDbContextFactory<NopObjectContext>
     {
         #region Ctor
 
+        public NopObjectContext()
+        {
+        }
+
         public NopObjectContext(DbContextOptions<NopObjectContext> options) : base(options)
         {
+        }
+
+        public NopObjectContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<NopObjectContext>();
+
+            dynamic dataSettings;
+            using (StreamReader reader = new StreamReader(NopDataSettingsDefaults.FilePath.Replace("~/", string.Empty).TrimStart('/').Replace('/', '\\')))
+            {
+                string json = reader.ReadToEnd();
+                dataSettings = JsonConvert.DeserializeObject(json);
+            }
+
+            optionsBuilder.UseSqlServer((string)dataSettings.DataConnectionString);
+
+            return new NopObjectContext(optionsBuilder.Options);
         }
 
         #endregion
@@ -166,6 +190,7 @@ namespace Nop.Data
             //set the entity is not being tracked by the context
             entityEntry.State = EntityState.Detached;
         }
+
 
         #endregion
     }

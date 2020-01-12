@@ -115,5 +115,17 @@ namespace Nop.Data.Mapping
         /// Gets a name of the ShippingMethod-Restrictions mapping table
         /// </summary>
         public static string ShippingMethodRestrictionsTable => "ShippingMethodRestrictions";
+
+        /// <summary>
+        /// Gets a name of the Batch-Component mapping table
+        /// </summary>
+        public static string BatchComponentTable => "BatchComponent";
+
+        /// <summary>
+        /// Gets a name of the Product-Component mapping table
+        /// </summary>
+        public static string ProductComponentTable => "ProductComponent";
+
+
     }
 }
