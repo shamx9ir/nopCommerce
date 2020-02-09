@@ -41,6 +41,7 @@ namespace Nop.Web.Factories
         private readonly CaptchaSettings _captchaSettings;
         private readonly CatalogSettings _catalogSettings;
         private readonly CustomerSettings _customerSettings;
+        private readonly IBatchService _batchService;
         private readonly ICategoryService _categoryService;
         private readonly ICurrencyService _currencyService;
         private readonly ICustomerService _customerService;
@@ -79,6 +80,7 @@ namespace Nop.Web.Factories
         public ProductModelFactory(CaptchaSettings captchaSettings,
             CatalogSettings catalogSettings,
             CustomerSettings customerSettings,
+            IBatchService batchService,
             ICategoryService categoryService,
             ICurrencyService currencyService,
             ICustomerService customerService,
@@ -110,6 +112,7 @@ namespace Nop.Web.Factories
             SeoSettings seoSettings,
             VendorSettings vendorSettings)
         {
+            _batchService = batchService;
             _captchaSettings = captchaSettings;
             _catalogSettings = catalogSettings;
             _customerSettings = customerSettings;
@@ -1345,7 +1348,34 @@ namespace Nop.Web.Factories
                 }
             }
 
+            // if product.IsBatchEnabled - load model
+            
+            if (product.ProductType == ProductType.SimpleProduct)
+            {
+                model.Batch = PrepareProductBatchModel(product);
+            }
+            
+
             return model;
+        }
+
+        private ProductBatchModel PrepareProductBatchModel(Product product)
+        {
+            if (product.BatchId != 0)
+            {
+                var batch = _batchService.GetBatchById(product.BatchId);
+                var model = new ProductBatchModel()
+                {
+                    
+
+                };
+                return model;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
         /// <summary>

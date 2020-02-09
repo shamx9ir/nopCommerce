@@ -368,5 +368,23 @@
         public static string ProductSpecificationAttributePrefixCacheKey => "Nop.productspecificationattribute.";
 
         #endregion
+
+        #region Batch
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// {0} : batch id
+        public static string BatchesByIdCacheKey => "Nop.batch.id-{0}";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// {0} : batch id
+        public static string BatchesByProductIdCacheKey => "Nop.batch.productid-{0}";
+
+        #endregion 
     }
 }
