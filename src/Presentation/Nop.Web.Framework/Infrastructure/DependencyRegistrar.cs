@@ -233,6 +233,8 @@ namespace Nop.Web.Framework.Infrastructure
             builder.RegisterType<ReviewTypeService>().As<IReviewTypeService>().SingleInstance();
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
             builder.RegisterType<SettingService>().As<ISettingService>().InstancePerLifetimeScope();
+            builder.RegisterType<BatchService>().As<IBatchService>().InstancePerLifetimeScope();
+
 
             //plugin managers
             builder.RegisterGeneric(typeof(PluginManager<>)).As(typeof(IPluginManager<>)).InstancePerLifetimeScope();
